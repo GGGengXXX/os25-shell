@@ -1,0 +1,41 @@
+./.git/hooks/pre-merge-commit.sample:test -x "$GIT_DIR/hooks/pre-commit" &&
+./.git/hooks/pre-merge-commit.sample:        exec "$GIT_DIR/hooks/pre-commit"
+./.git/hooks/sendemail-validate.sample:unset GIT_DIR GIT_WORK_TREE
+./.git/hooks/update.sample:if [ -z "$GIT_DIR" ]; then
+./.git/hooks/update.sample:	echo " (if you want, you could supply GIT_DIR then run" >&2
+./.git/hooks/update.sample:projectdesc=$(sed -e '1q' "$GIT_DIR/description")
+./.git/hooks/pre-rebase.sample:$GIT_DIR/config mechanism.
+./user/include/fs.h:#define NDIRECT 10
+./user/include/fs.h:#define NINDIRECT (BLOCK_SIZE / 4)
+./user/include/fs.h:#define MAXFILESIZE (NINDIRECT * BLOCK_SIZE)
+./user/include/fs.h:	/* 文件类型： 普通文件FTYPE_REG 和 目录FTYPE_DIR 两种 */
+./user/include/fs.h:	uint32_t f_direct[NDIRECT];
+./user/include/fs.h:	char f_pad[FILE_STRUCT_SIZE - MAXNAMELEN - (3 + NDIRECT) * 4 - sizeof(void *)];
+./user/include/fs.h:#define FTYPE_DIR 1 // Directory
+./user/include/fsreq.h:	FSREQ_DIRTY,
+./user/include/lib.h:#define O_MKDIR 0x0800 /* create directory, not regular file */
+./user/lib/file.c:	st->st_isdir = f->f_file.f_type == FTYPE_DIR;
+./user/lib/fsipc.c:	return fsipc(FSREQ_DIRTY, req, 0, 0);
+./fs/serv.c:    [FSREQ_CLOSE] = serve_close, [FSREQ_DIRTY] = serve_dirty, [FSREQ_REMOVE] = serve_remove,
+./fs/serv.h:#define PTE_DIRTY 0x0004 // file system block cache is dirty
+./fs/fs.c://  Check if this virtual address is dirty. (check PTE_DIRTY bit)
+./fs/fs.c:	return vpt[VPN(va)] & PTE_DIRTY;
+./fs/fs.c:	return syscall_mem_map(0, va, 0, va, PTE_D | PTE_DIRTY);
+./fs/fs.c://  Return -E_INVAL if filebno is out of range (>= NINDIRECT).
+./fs/fs.c:	if (filebno < NDIRECT) {
+./fs/fs.c:	} else if (filebno < NINDIRECT) {
+./fs/fs.c:		if (dir->f_type != FTYPE_DIR) {
+./fs/fs.c://  If the new_nblocks is no more than NDIRECT, free the indirect block too.
+./fs/fs.c:	if (new_nblocks <= NDIRECT) {
+./tools/fsformat.c:		for (i = 0; i < NDIRECT; ++i) {
+./tools/fsformat.c:				for (j = 0; j < NDIRECT; ++j) {
+./tools/fsformat.c:	super.s_root.f_type = FTYPE_DIR;
+./tools/fsformat.c:	// NINDIRECT = BLOCK_SIZE / 4 = 1024
+./tools/fsformat.c:	assert(nblk < NINDIRECT); // if not, file is too large !
+./tools/fsformat.c:	if (nblk < NDIRECT) {
+./tools/fsformat.c:		// If the block number is in the range of direct pointers (NDIRECT), get the 'bno'
+./tools/fsformat.c:		if( i < NDIRECT )
+./tools/fsformat.c:	DIR *dir = opendir(path);
+./tools/fsformat.c:	pdir->f_type = FTYPE_DIR;
+./tools/fsformat.c:			if (e->d_type == DT_DIR) {
+./tools/fsformat.c:		if (S_ISDIR(stat_buf.st_mode)) {
